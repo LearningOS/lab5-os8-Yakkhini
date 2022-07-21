@@ -133,6 +133,7 @@ impl TaskControlBlock {
 #[derive(Copy, Clone, PartialEq)]
 /// task status: UnInit, Ready, Running, Exited
 pub enum TaskStatus {
+    #[allow(unused)]
     UnInit,
     Ready,
     Running,

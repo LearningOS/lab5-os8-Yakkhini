@@ -138,6 +138,24 @@ pub fn sys_condvar_wait(condvar_id: usize, mutex_id: usize) -> isize {
 }
 
 // LAB5 YOUR JOB: Implement deadlock detection, but might not all in this syscall
-pub fn sys_enable_deadlock_detect(_enabled: usize) -> isize {
-    -1
+pub fn sys_enable_deadlock_detect(enabled: usize) -> isize {
+    match enabled {
+        1 => {
+            let process = current_process();
+            let mut process_inner = process.inner_exclusive_access();
+            process_inner.deadlock_detect = true;
+
+            return 0;
+        }
+        0 => {
+            let process = current_process();
+            let mut process_inner = process.inner_exclusive_access();
+            process_inner.deadlock_detect = false;
+
+            return 0;
+        }
+        _ => {
+            return -1;
+        }
+    }
 }
