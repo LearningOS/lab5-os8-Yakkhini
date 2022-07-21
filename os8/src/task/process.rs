@@ -31,6 +31,9 @@ pub struct ProcessControlBlockInner {
     pub semaphore_list: Vec<Option<Arc<Semaphore>>>,
     pub condvar_list: Vec<Option<Arc<Condvar>>>,
     pub deadlock_detect: bool,
+    pub available: Vec<i8>,
+    pub allocation: Vec<Vec<u8>>,
+    pub need: Vec<Vec<u8>>,
 }
 
 impl ProcessControlBlockInner {
@@ -99,6 +102,9 @@ impl ProcessControlBlock {
                     semaphore_list: Vec::new(),
                     condvar_list: Vec::new(),
                     deadlock_detect: false,
+                    available: Vec::new(),
+                    allocation: Vec::new(),
+                    need: Vec::new(),
                 })
             },
         });
@@ -221,6 +227,9 @@ impl ProcessControlBlock {
                     semaphore_list: Vec::new(),
                     condvar_list: Vec::new(),
                     deadlock_detect: false,
+                    available: Vec::new(),
+                    allocation: Vec::new(),
+                    need: Vec::new(),
                 })
             },
         });
@@ -265,7 +274,7 @@ impl ProcessControlBlock {
             inner: unsafe {
                 UPSafeCell::new(ProcessControlBlockInner {
                     is_zombie: false,
-                    memory_set: memory_set,
+                    memory_set,
                     parent: None,
                     children: Vec::new(),
                     exit_code: 0,
@@ -276,6 +285,9 @@ impl ProcessControlBlock {
                     semaphore_list: Vec::new(),
                     condvar_list: Vec::new(),
                     deadlock_detect: false,
+                    available: Vec::new(),
+                    allocation: Vec::new(),
+                    need: Vec::new(),
                 })
             },
         });
